@@ -2,8 +2,11 @@ const axios = require("axios")
 const Papa = require("papaparse")
 const fs = require("fs")
 
-const AUTH_TOKEN = ""
+// Editable values
+const AUTH_TOKEN = "" // <-- MAKE SURE YOU ADD YOUR AUTH_TOKEN HERE
+const API_ENDPOINT = "departments" // <-- CHANGE THIS TO THE ENDPOINT THAT YOU WANT
 
+// Setup default API connection configuration
 axios.defaults.baseURL = "https://my.tanda.co/api/v2/"
 axios.defaults.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
 axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -20,7 +23,7 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
 
         Promise.all(
           dataRows.map((row) => new Promise((resolve, reject) => {
-            axios.post("departments/", { ...row })
+            axios.post(API_ENDPOINT, { ...row })
             .then(({ status, statusText, data }) => {
               const { id, name } = data
               newEntries.push({ id, name })
