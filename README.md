@@ -16,6 +16,10 @@ yarn install
 ├── package.json
 └── yarn.lock
 
+# From here, you will need to modify 'index.js' and update the values of the these two variables:
+# API_ENDPOINT
+# AUTH_TOKEN
+
 yarn start
 ```
 
