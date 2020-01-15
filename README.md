@@ -1,5 +1,5 @@
 ## ✨ Tanda API Data Upload
-This is just a simple little application that takes a CSV of data and uploads it to through the Tanda API.
+This is just a simple little application that takes a CSV of data and uploads it through the Tanda API.
 
 ### Getting Started
 ```bash
