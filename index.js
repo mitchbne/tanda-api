@@ -20,20 +20,18 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
       complete: ({ data: dataRows }) => {
         var errors = []
         var newEntries = []
+
         Promise.all(
-          dataRows.map((row, index) => new Promise((resolve, reject) => {
-            const rowNumber = index + 1
-            setTimeout(() => {
-              axios.post(API_ENDPOINT, { ...row })
-              .then(({ status, statusText, data }) => {
-                const { id, name } = data
-                newEntries.push({ id, name })
-              })
-              .catch(({ response: { data: { error }, config: { data }} }) => {
-                errors.push({ error, data })
-              })
-              .finally(() => { resolve() })
-            }, Math.floor(rowNumber / 100) * 60 * 1000)
+          dataRows.map((row) => new Promise((resolve, reject) => {
+            axios.post(API_ENDPOINT, { ...row })
+            .then(({ status, statusText, data }) => {
+              const { id, name } = data
+              newEntries.push({ id, name })
+            })
+            .catch(({ response: { data: { error }, config: { data }} }) => {
+              errors.push({ error, data })
+            })
+            .finally(() => { resolve() })
           }))
         ).then(() => {
           console.log("New rows", newEntries)
