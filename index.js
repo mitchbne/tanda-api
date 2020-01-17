@@ -26,10 +26,12 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
           dataRows.map((row, rowIndex) => new Promise((resolve, reject) => {
             axios.post(API_ENDPOINT, { ...row })
             .then(({ status, statusText, data }) => {
-              newEntries.push({ id: data.id })
-              console.log("✅ Created new entry" id, )
+              if (status >= 200 && status <= 205){
+                newEntries.push({ id: data.id })
+                console.log("✅ Created new entry", data.id )
+              }
             })
-            .catch(({ response: { data: { error } }}) => {
+            .catch((error) => {
               errors.push({ error, row })
               console.log("❌ Error creating entry. CSV row ", rowIndex + 1)
             })
