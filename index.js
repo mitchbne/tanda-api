@@ -45,7 +45,10 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
             csv = Papa.unparse(output_rows)
             fs.writeFile('rows_not_sent.csv', csv, (err) => {
               // throws an error, you could also catch it here
-              if (err) throw err;
+              if (err) throw err
+              
+              console.log("Rows that did not get created have been output to 'rows_not_sent.csv' ")
+              
             })
           }
         })
