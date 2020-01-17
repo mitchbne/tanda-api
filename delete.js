@@ -21,35 +21,37 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
       header: true,
       complete: ({ data: dataRows }) => {
         const errors = []
-        const newEntries = []
+        const rowsDeleted = []
         Promise.all(
           dataRows.map((row, rowIndex) => new Promise((resolve) => {
-            axios.post(API_ENDPOINT, { ...row })
-              .then(({ status, data }) => {
+            const { id } = row
+            if (!id){errors.push({ error: `No id specified at row ${rowIndex + 1}` })}
+            axios.delete(`${API_ENDPOINT}/${id}`)
+              .then(({ status }) => {
                 if (status >= 200 && status <= 205){
-                  newEntries.push({ id: data.id })
-                  console.log("✅ Created new entry", data.id )
+                  console.log("✅ Delete entry with id", id )
+                  rowsDeleted.push({ id })
                 }
               })
               .catch((error) => {
-                errors.push({ error, row })
-                console.log("❌ Error creating entry. CSV row ", rowIndex + 1)
+                errors.push({ error, id })
+                console.log("❌ Error deleting entry with ID ")
               })
               .finally(() => { resolve() })
           }))
         ).then(() => {
           if (errors.length > 0){
             errors.forEach((e) => { console.log(e.error) })
-            const output_rows = errors.map(line => line.row)
+            const output_rows = errors.map(line => line.id)
             const csv = Papa.unparse(output_rows)
-            fs.writeFile("rows_not_sent.csv", csv, (err) => {
+            fs.writeFile("data_not_deleted.csv", csv, (err) => {
               if (err) {throw err}
-              console.log("Rows that did not get created have been output to 'rows_not_sent.csv' ")
+              console.log("Entries that did not get deleted have been output to 'data_not_deleted.csv' ")
             })
           }
           console.log("\n\n")
           console.log("✨  Summary")
-          console.log(`${newEntries.length} rows created.`)
+          console.log(`${rowsDeleted.length} entries deleted.`)
           console.log(`${errors.length} errors occured.\n\n`)
         })
           .catch((err) => {
