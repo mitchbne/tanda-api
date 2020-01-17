@@ -26,17 +26,24 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
           dataRows.map((row) => new Promise((resolve, reject) => {
             axios.post(API_ENDPOINT, { ...row })
             .then(({ status, statusText, data }) => {
-              const { id, name } = data
-              newEntries.push({ id, name })
+              newEntries.push({ id: data.id })
             })
-            .catch(({ response: { data: { error }, config: { data }} }) => {
-              errors.push({ error, data })
+            .catch(({ response: { data: { error } }}) => {
+              errors.push({ error, row })
             })
             .finally(() => { resolve() })
           }))
         ).then(() => {
           console.log("New rows", newEntries)
           console.log("Errors", errors)
+          console.log("\n\n")
+          console.log("✨  Summary")
+          console.log(`${newEntries.length} rows created.`)
+          console.log(`${errors.length} errors occured.\n\n`)
+        })
+        .catch((err) => {
+          console.log("It semes there was some dodgy CSV stuff parsed.")
+          console.log(err)
         })
       }
     })
