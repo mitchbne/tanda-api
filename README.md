@@ -22,7 +22,7 @@ yarn install
 AUTH_TOKEN="123456543234567876543245678765434567876543"
 API_ENDPOINT="departments"
 
-# You WILL need to mofidy the AUTH_TOKEN value to match your API KEY
+# You WILL need to modify the AUTH_TOKEN value to match your API KEY
 # Update the API_ENDPOINT value to match your desired API endpoint.
 # i.e. "https://my.tanda.co/api/v2/departments" --> API_ENDPOINT="departments"
 
