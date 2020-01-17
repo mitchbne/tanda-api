@@ -1,10 +1,12 @@
 const axios = require("axios")
 const Papa = require("papaparse")
 const fs = require("fs")
+require("dotenv").config() // Load in Environmental variables.
 
 // Editable values
-const AUTH_TOKEN = "" // <-- MAKE SURE YOU ADD YOUR AUTH_TOKEN HERE
-const API_ENDPOINT = "departments" // <-- CHANGE THIS TO THE ENDPOINT THAT YOU WANT
+// Add these variables in a .env file
+const AUTH_TOKEN = process.env.AUTH_TOKEN
+const API_ENDPOINT = process.env.API_ENDPOINT
 
 // Setup default API connection configuration
 axios.defaults.baseURL = "https://my.tanda.co/api/v2/"
@@ -20,7 +22,6 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
       complete: ({ data: dataRows }) => {
         var errors = []
         var newEntries = []
-
         Promise.all(
           dataRows.map((row) => new Promise((resolve, reject) => {
             axios.post(API_ENDPOINT, { ...row })
