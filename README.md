@@ -16,9 +16,11 @@ yarn install
 ├── package.json
 └── yarn.lock
 
-# From here, you will need to modify 'index.js' and update the values of the these two variables:
-# API_ENDPOINT
-# AUTH_TOKEN
+# From here, you will need to create an modify a new file called '.env'.
+# Add the following lines:
+
+AUTH_TOKEN="123456543234567876543245678765434567876543" .  # ADD YOUR API TOKEN HERE
+API_ENDPOINT="departments"
 
 yarn start
 ```
