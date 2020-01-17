@@ -23,13 +23,15 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
         var errors = []
         var newEntries = []
         Promise.all(
-          dataRows.map((row) => new Promise((resolve, reject) => {
+          dataRows.map((row, rowIndex) => new Promise((resolve, reject) => {
             axios.post(API_ENDPOINT, { ...row })
             .then(({ status, statusText, data }) => {
               newEntries.push({ id: data.id })
+              console.log("✅ Created new entry" id, )
             })
             .catch(({ response: { data: { error } }}) => {
               errors.push({ error, row })
+              console.log("❌ Error creating entry. CSV row ", rowIndex + 1)
             })
             .finally(() => { resolve() })
           }))
@@ -44,11 +46,8 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
             output_rows = errors.map(line => line.row)
             csv = Papa.unparse(output_rows)
             fs.writeFile('rows_not_sent.csv', csv, (err) => {
-              // throws an error, you could also catch it here
               if (err) throw err
-              
               console.log("Rows that did not get created have been output to 'rows_not_sent.csv' ")
-              
             })
           }
         })
