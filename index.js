@@ -40,6 +40,14 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
           console.log("✨  Summary")
           console.log(`${newEntries.length} rows created.`)
           console.log(`${errors.length} errors occured.\n\n`)
+          if (errors){
+            output_rows = errors.map(line => line.row)
+            csv = Papa.unparse(output_rows)
+            fs.writeFile('rows_not_sent.csv', csv, (err) => {
+              // throws an error, you could also catch it here
+              if (err) throw err;
+            })
+          }
         })
         .catch((err) => {
           console.log("It semes there was some dodgy CSV stuff parsed.")
