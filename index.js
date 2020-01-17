@@ -38,13 +38,10 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
             .finally(() => { resolve() })
           }))
         ).then(() => {
-          console.log("New rows", newEntries)
-          console.log("Errors", errors)
-          console.log("\n\n")
-          console.log("✨  Summary")
-          console.log(`${newEntries.length} rows created.`)
-          console.log(`${errors.length} errors occured.\n\n`)
           if (errors.length > 0){
+            errors.forEach(e => {
+              console.log(e.error)
+            })
             output_rows = errors.map(line => line.row)
             csv = Papa.unparse(output_rows)
             fs.writeFile('rows_not_sent.csv', csv, (err) => {
@@ -52,6 +49,10 @@ fs.readFile("./data.csv", "utf-8", (err, data) => {
               console.log("Rows that did not get created have been output to 'rows_not_sent.csv' ")
             })
           }
+          console.log("\n\n")
+          console.log("✨  Summary")
+          console.log(`${newEntries.length} rows created.`)
+          console.log(`${errors.length} errors occured.\n\n`)
         })
         .catch((err) => {
           console.log("It semes there was some dodgy CSV stuff parsed.")
