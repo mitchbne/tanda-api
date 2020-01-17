@@ -19,8 +19,10 @@ yarn install
 # From here, you will need to create an modify a new file called '.env'.
 # Add the following lines:
 
-AUTH_TOKEN="123456543234567876543245678765434567876543" .  # ADD YOUR API TOKEN HERE
+AUTH_TOKEN="123456543234567876543245678765434567876543"
 API_ENDPOINT="departments"
+
+# You WILL need to mofidy the AUTH_TOKEN value to match your API KEY
 
 yarn start
 ```
