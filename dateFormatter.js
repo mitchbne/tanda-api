@@ -2,6 +2,13 @@ const fs = require("fs")
 const Papa = require("papaparse")
 const moment = require("moment")
 
+// Expected format of 'dates.csv'
+
+// start_date,start_time,finish_time
+// 02/08/2018,13:00,22:00
+// 03/08/2018,13:00,22:00
+// 04/08/2018,10:00,19:00
+
 const startTime = new Date().getTime()
 fs.readFile("./dates.csv", "utf-8", (err, data) => {
   if (err) {throw err}
