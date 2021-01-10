@@ -1,0 +1,5 @@
+datastream_id,time,stat,type
+100,1459296900,3.5,sales
+100,1459296900,1,transactions
+100,1459297800,20.1,sales
+100,1459297800,22,transactions

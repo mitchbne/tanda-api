@@ -1,6 +1,9 @@
 node_modules/
-data.csv
-rows_not_sent.csv
-data_not_deleted.csv
+csv_files/**csv
+/**.csv
+src/**.csv
+test/**.csv
 .env
 yarn-error.log
+dist
+# application
